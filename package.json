@@ -1,0 +1,23 @@
+{
+  "name": "tm-reading-time",
+  "version": "1.0.0",
+  "description": "Browser extension for display the time needed for reading article",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/damirm/tm-reading-time.git"
+  },
+  "author": "Makhmutov Damir",
+  "license": "MIT",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "extension",
+    "chrome",
+    "habrahabr"
+  ],
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
+}
