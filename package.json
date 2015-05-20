@@ -18,6 +18,7 @@
     "habrahabr"
   ],
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "gulp-zip": "^3.0.2"
   }
 }
