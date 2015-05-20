@@ -7,9 +7,35 @@
         content = document.querySelector('.content'),
         averageWordsPerMinute = 180,
         contentLength = content.textContent.replace(/[\n\s]/g, '').length,
-        wordsCount = content.textContent.replace(/\s+/g, ' ').split(' ').length;
+        wordsCount = content.textContent.replace(/\s+/g, ' ').split(' ').length,
+        youtubeIframe = document.querySelector('.post iframe');
 
-    badge.innerText = Math.ceil(wordsCount / averageWordsPerMinute)  + " min";
-    badge.className = badgeClasses;
-    container.appendChild(badge);
+    var resultTime = Math.ceil(wordsCount / averageWordsPerMinute);
+
+    if (typeof youtubeIframe == 'undefined') {
+        showBadge(resultTime);
+    } else {
+        showBadge(resultTime);
+        
+        // TODO: add youtube videos duration
+        // loadYoutubeApi(function () {
+        //     var player = new YT.Player(youtubeIframe);
+        // });
+    }
+
+    function loadYoutubeApi(cb) {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+
+        window.onYouTubeIframeAPIReady = function () {
+            cb();
+        };
+    }
+
+    function showBadge(time) {
+        badge.innerText =  time + " min";
+        badge.className = badgeClasses;
+        container.appendChild(badge);
+    }
 })();
