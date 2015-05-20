@@ -19,6 +19,7 @@
   ],
   "devDependencies": {
     "gulp": "^3.8.11",
+    "gulp-run": "^1.6.8",
     "gulp-zip": "^3.0.2"
   }
 }

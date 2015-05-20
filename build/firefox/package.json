@@ -1,0 +1,14 @@
+{
+    "name": "tm-reading-time",
+    "title": "TM reading time",
+    "id": "jid1-1FERGV45e4f4f",
+    "description": "Browser extension for display the time needed for reading article",
+    "author": "Makhmutov Damir",
+    "license": "MIT",
+    "version": "0.0.1",
+
+    "homepage": "https://github.com/damirm/tm-reading-time.git",
+
+    "data": "data",
+    "icon": "data/icons/icon48.png"
+}
