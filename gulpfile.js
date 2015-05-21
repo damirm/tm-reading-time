@@ -24,6 +24,7 @@ var paths = {
 
 gulp.task('chrome', function () {
     gulp.src(paths.dev.js)
+        .pipe(preprocess({ context: config }))
         .pipe(gulp.dest(paths.build.chrome + '/js'));
 
     gulp.src(paths.dev.icons)
@@ -36,6 +37,7 @@ gulp.task('chrome', function () {
 
 gulp.task('firefox', function () {
     gulp.src(paths.dev.js)
+        .pipe(preprocess({ context: config }))
         .pipe(gulp.dest(paths.build.firefox + '/data/js'));
 
     gulp.src(paths.dev.icons)

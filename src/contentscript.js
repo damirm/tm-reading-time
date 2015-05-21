@@ -2,7 +2,7 @@
     'use strict';
 
     var defaultOptions = {
-        api_url: 'https://noble-linker-95212.appspot.com/resolve',
+        api_url: '/* @echo plugin.apiUrl *//resolve',
         badgeClassName: 'flag flag_recovery',
         averageWordsPerMinute: 180,
         badgeContainerSelector: '.post h1.title',
@@ -70,6 +70,16 @@
             container.appendChild(badge);
         },
 
+        addBadgeForLink: function (time, href) {
+            var a = document.querySelector('a[href="' + href + '"]');
+
+            if (a == null) {
+                return;
+            }
+
+            this.addBadge(time, a.parentNode);
+        },
+
         getArticlesUrls: function () {
             var result = [];
             var articleLinkElements = Array.prototype.slice.call(
@@ -87,19 +97,29 @@
             var urls = this.getArticlesUrls();
 
             if (urls.length) {
-                var query = "?links=" + encodeURIComponent(JSON.stringify(urls));
+                this.getFromStorage(urls, function (result) {
+                    for (var href in result) {
+                        if (result.hasOwnProperty(href)) {
+                            self.addBadgeForLink(result[href], href);
+                            urls.splice(urls.indexOf(href), 1);
+                        }
+                    }
+                    
+                    if (urls.length) {
+                        var query = "?links=" + encodeURIComponent(JSON.stringify(urls));
             
-                this.ajax({
-                    url: this.api_url + query,
-                    success: function (response) {
-                        response.forEach(function (obj) {
-                            var a = document.querySelector('a[href="' + obj.href + '"]');
+                        self.ajax({
+                            url: self.api_url + query,
+                            success: function (response) {
+                                var toCache = {};
+                                response.forEach(function (obj) {
+                                    self.addBadgeForLink(obj.time, obj.href);
 
-                            if (a == null) {
-                                return;
+                                    toCache[obj.href] = obj.time;
+                                });
+
+                                chrome.storage.local.set(toCache);
                             }
-
-                            self.addBadge(obj.time, a.parentNode);
                         });
                     }
                 });
@@ -144,6 +164,10 @@
                     params.success(JSON.parse(xhr.responseText));
                 }
             };
+        },
+
+        getFromStorage: function (links, cb) {
+            chrome.storage.local.get(links, cb);
         }
     };
 

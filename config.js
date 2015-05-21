@@ -1,6 +1,6 @@
 var config = {
     plugin: {
-        version: "1.0.0",
+        version: "1.0.2",
         name: "TM reading time",
         description: "Browser extension for display the time needed for reading article",
         domains: JSON.stringify([
@@ -18,7 +18,9 @@ var config = {
         homepage: "https://github.com/damirm/tm-reading-time.git",
         author: "Makhmutov Damir",
 
-        license: "MIT"
+        license: "MIT",
+
+        apiUrl: "https://noble-linker-95212.appspot.com"
     }
 };
 
