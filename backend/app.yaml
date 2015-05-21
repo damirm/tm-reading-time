@@ -5,5 +5,9 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /*
-  script: tm-reading-time.application
+- url: /.*
+  script: tm-reading-time.app
+
+libraries:
+- name: lxml
+  version: latest

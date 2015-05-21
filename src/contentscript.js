@@ -2,12 +2,13 @@
     'use strict';
 
     var defaultOptions = {
+        api_url: 'http://localhost:8000',
         badgeClassName: 'flag flag_recovery',
         averageWordsPerMinute: 180,
-
         badgeContainerSelector: '.post h1.title',
         contentContainerSelector: '.content',
-        iframesContainerSelector: '.post iframe'
+        iframesContainerSelector: '.post iframe',
+        articlesContainerSelector: 'a.post_title'
     };
 
     var TmReadingTime = function (options) {
@@ -19,6 +20,8 @@
         if (this.isPostPage()) {
             var time = this.calculateMinutes();
             this.addBadge(time, this.getBadgeContainer());
+        } else {
+            this.loadReadingTimes();
         }
     };
 
@@ -40,7 +43,8 @@
         },
 
         getContentWordsCount: function (container) {
-            return container.textContent.replace(/\s+/g, ' ').split(' ').length;
+            var count = container.textContent.replace(/[\s\n]+/g, ' ').split(' ').length;
+            return count;
         },
 
         getYoutubeIframes: function () {
@@ -66,6 +70,23 @@
             container.appendChild(badge);
         },
 
+        getArticlesUrls: function () {
+            var result = [];
+            var articleLinkElements = Array.prototype.slice.call(
+                    document.querySelectorAll(this.articlesContainerSelector), 0);
+
+            articleLinkElements.forEach(function (link) {
+                result.push(link.href);
+            });
+
+            return result;
+        },
+
+        loadReadingTimes: function () {
+            var urls = this.getArticlesUrls();
+            console.log(urls);
+        },
+
         loadYoutubeApi: function (cb) {
             var tag = document.createElement('script');
             tag.src = "https://www.youtube.com/iframe_api";
@@ -84,6 +105,19 @@
             }
 
             return this;
+        },
+
+        ajax: function (options) {
+            var params = {
+                method: 'GET',
+                url: this.api_url,
+                success: function (response) { console.log('Ajax response', response); }
+            };
+
+            this.options.call(params, options);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(params.method, params.url, true);
         }
     };
 
