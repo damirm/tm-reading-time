@@ -38,6 +38,7 @@ class TimeResolver(webapp2.RequestHandler):
                     'time': time
                 })
 
+        self.response.headers.add_header("Access-Control-Allow-Origin", "chrome-extension://epckpcpgjpneakhdaclinigaljkejjlg")
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(result))
 

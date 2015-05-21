@@ -2,7 +2,7 @@
     'use strict';
 
     var defaultOptions = {
-        api_url: 'http://localhost:8080/resolve',
+        api_url: 'https://noble-linker-95212.appspot.com/resolve',
         badgeClassName: 'flag flag_recovery',
         averageWordsPerMinute: 180,
         badgeContainerSelector: '.post h1.title',
