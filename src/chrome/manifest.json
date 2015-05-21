@@ -17,5 +17,9 @@
     "content_scripts": [{
         "matches": <!-- @echo plugin.domains -->,
         "js": ["js/contentscript.js"]
-    }]
+    }],
+
+    "permissions": [
+        "http://localhost:8080/*"
+    ]
 }

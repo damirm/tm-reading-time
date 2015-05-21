@@ -2,7 +2,7 @@
     'use strict';
 
     var defaultOptions = {
-        api_url: 'http://localhost:8000',
+        api_url: 'http://localhost:8080/resolve',
         badgeClassName: 'flag flag_recovery',
         averageWordsPerMinute: 180,
         badgeContainerSelector: '.post h1.title',
@@ -27,7 +27,7 @@
 
     TmReadingTime.prototype = {
         isPostPage: function () {
-            return /\d+\/$/.test(location.pathname);
+            return /\/\d+\/$/.test(location.pathname);
         },
 
         getBadgeContainer: function () {
@@ -83,8 +83,27 @@
         },
 
         loadReadingTimes: function () {
+            var self = this;
             var urls = this.getArticlesUrls();
-            console.log(urls);
+
+            if (urls.length) {
+                var query = "?links=" + encodeURIComponent(JSON.stringify(urls));
+            
+                this.ajax({
+                    url: this.api_url + query,
+                    success: function (response) {
+                        response.forEach(function (obj) {
+                            var a = document.querySelector('a[href="' + obj.href + '"]');
+
+                            if (a == null) {
+                                return;
+                            }
+
+                            self.addBadge(obj.time, a.parentNode);
+                        });
+                    }
+                });
+            }
         },
 
         loadYoutubeApi: function (cb) {
@@ -118,6 +137,13 @@
 
             var xhr = new XMLHttpRequest();
             xhr.open(params.method, params.url, true);
+            xhr.send();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    params.success(JSON.parse(xhr.responseText));
+                }
+            };
         }
     };
 

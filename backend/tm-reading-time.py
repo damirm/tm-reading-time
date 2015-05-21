@@ -13,9 +13,11 @@ cacheTtl = 3600
 class TimeResolver(webapp2.RequestHandler):
     def get(self):
         result = []
-        links = self.request.params.getall('links')
+        links = self.request.params.get('links')
 
         if links is not None:
+            links = json.loads(links)
+            print links
             for link in links:
                 linkHash = hmac.new(str(link)).hexdigest()
 
@@ -32,7 +34,7 @@ class TimeResolver(webapp2.RequestHandler):
                     logging.info('RESTORE FROM CACHE')
 
                 result.append({
-                    'link': link,
+                    'href': link,
                     'time': time
                 })
 
