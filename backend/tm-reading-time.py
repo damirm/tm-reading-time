@@ -17,12 +17,11 @@ class TimeResolver(webapp2.RequestHandler):
 
         if links is not None:
             links = json.loads(links)
-            print links
+
             for link in links:
                 linkHash = hmac.new(str(link)).hexdigest()
 
                 cacheKey = 'links:{}'.format(linkHash)
-                print 'CACHE KEY: {}'.format(cacheKey)
 
                 time = memcache.get(cacheKey)
 
