@@ -47,6 +47,8 @@ class TimeResolver(webapp2.RequestHandler):
 
         if wordsPerMinute is None:
             wordsPerMinute = 180
+        else:
+            wordsPerMinute = int(wordsPerMinute)
 
         content = self.getUrlContent(url)
         page = fromstring(content)
