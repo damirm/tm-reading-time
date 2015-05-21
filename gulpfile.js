@@ -3,16 +3,18 @@ var gulp = require('gulp'),
     run = require('gulp-run'),
     config = require('./config'),
     preprocess = require('gulp-preprocess'),
-    path = require('path');
+    path = require('path'),
+    del = require('del');
 
+var buildDir = './build';
 var paths = {
     dev: {
         js: ['./src/*.js'],
         icons: ['./src/icons/*']
     },
     build: {
-        chrome: './build/chrome',
-        firefox: './build/firefox'
+        chrome: buildDir + '/chrome',
+        firefox: buildDir + '/firefox'
     },
     dist: {
         chrome: './dist',
@@ -44,22 +46,31 @@ gulp.task('firefox', function () {
         .pipe(gulp.dest(paths.build.firefox));
 });
 
-gulp.task('chrome:dist', ['chrome'], function (cb) {
-    gulp.src(paths.build.chrome + '/**/*')
-        .pipe(zip('chrome.zip'))
-        .pipe(gulp.dest(paths.dist.chrome));
-
-    run("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome " +
+gulp.task('chrome:_crx', ['chrome'], function (cb) {
+    run("/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome " +
         ' --pack-extension=' + path.join(__dirname, paths.build.chrome) +
-        ' --pack-extension-key=' + path.join(process.env.HOME, '.ssh/chrome/chrome-tm-reading-time.pem'));
+        ' --pack-extension-key=' + path.join(process.env.HOME, '.ssh/chrome/chrome-tm-reading-time.pem'))
+        .exec(cb);
+});
 
-    gulp.src(paths.build.chrome + '.crx').pipe(gulp.dest(paths.dist.chrome));
+gulp.task('chrome:dist', ['chrome:_crx'], function (cb) {
+    gulp.src(paths.build.chrome + '.crx')
+        .pipe(gulp.dest(paths.dist.chrome));
 });
 
 gulp.task('firefox:dist', ['firefox'], function (cb) {
     run('cd ./build/firefox && cfx xpi --output-file=../../dist/firefox.xpi').exec(cb);
 });
 
+gulp.task('clean:build', function () {
+    del(buildDir);
+});
+
+gulp.task('clean:dist', function () {
+    del(paths.dist.chrome);
+});
+
+gulp.task('dist', ['chrome:dist', 'firefox:dist']);
 
 gulp.task('watch', ['chrome', 'firefox'], function () {
     gulp.watch('./src/**/*', ['chrome']);

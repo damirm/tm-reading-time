@@ -1,6 +1,6 @@
 var config = {
     plugin: {
-        version: "0.0.1",
+        version: "1.0.0",
         name: "TM reading time",
         description: "Browser extension for display the time needed for reading article",
         domains: JSON.stringify([
