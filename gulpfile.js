@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
     zip = require('gulp-zip'),
-    run = require('gulp-run');
+    run = require('gulp-run'),
+    config = require('./config'),
+    preprocess = require('gulp-preprocess');
 
 var paths = {
     dev: {
@@ -25,6 +27,7 @@ gulp.task('chrome', function () {
         .pipe(gulp.dest(paths.build.chrome + '/icons'));
 
     gulp.src('./src/chrome/*')
+        .pipe(preprocess({ context: config }))
         .pipe(gulp.dest(paths.build.chrome));
 });
 
@@ -36,6 +39,7 @@ gulp.task('firefox', function () {
         .pipe(gulp.dest(paths.build.firefox + '/data/icons'));
 
     gulp.src('./src/firefox/*')
+        .pipe(preprocess({ context: config }))
         .pipe(gulp.dest(paths.build.firefox));
 });
 

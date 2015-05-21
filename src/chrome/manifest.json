@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
-    "name": "TM reading time",
-    "version": "0.0.1",
+    "name": "<!-- @echo plugin.name -->",
+    "version": "<!-- @echo plugin.version -->",
 
-    "description": "Browser extension for display the time needed for reading article",
-    "homepage_url": "https://github.com/damirm/tm-reading-time.git",
+    "description": "<!-- @echo plugin.description -->",
+    "homepage_url": "<!-- @echo plugin.homepage -->",
 
     "icons": {
         "16": "icons/icon16.png",
@@ -12,17 +12,10 @@
         "128": "icons/icon128.png"
     },
 
-    "author": "Makhmutov Damir",
+    "author": "<!-- @echo plugin.author -->",
 
     "content_scripts": [{
-        "matches": [
-            "*://habrahabr.ru/post/*",
-            "*://habrahabr.ru/company/*/blog/*",
-            "*://geektimes.ru/post/*",
-            "*://geektimes.ru/company/*/blog/*",
-            "*://megamozg.ru/post/*",
-            "*://megamozg.ru/company/*/blog/*"
-        ],
+        "matches": <!-- @echo plugin.domains -->,
         "js": ["js/contentscript.js"]
     }]
 }

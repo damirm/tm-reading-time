@@ -1,13 +1,13 @@
 {
     "name": "tm-reading-time",
-    "title": "TM reading time",
+    "title": "<!-- @echo plugin.name -->",
     "id": "jid1-1FERGV45e4f4f",
-    "description": "Browser extension for display the time needed for reading article",
-    "author": "Makhmutov Damir",
-    "license": "MIT",
-    "version": "0.0.1",
+    "description": "<!-- @echo plugin.description -->",
+    "author": "<!-- @echo plugin.autor -->",
+    "license": "<!-- @echo plugin.license -->",
+    "version": "<!-- @echo plugin.version -->",
 
-    "homepage": "https://github.com/damirm/tm-reading-time.git",
+    "homepage": "<!-- @echo plugin.homepage -->",
 
     "data": "data",
     "icon": "data/icons/icon48.png"
