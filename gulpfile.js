@@ -56,6 +56,10 @@ gulp.task('chrome:_crx', ['chrome'], function (cb) {
 gulp.task('chrome:dist', ['chrome:_crx'], function (cb) {
     gulp.src(paths.build.chrome + '.crx')
         .pipe(gulp.dest(paths.dist.chrome));
+
+    gulp.src(paths.build.chrome + '/**/*')
+        .pipe(zip('chrome.zip'))
+        .pipe(gulp.dest(paths.dist.chrome));
 });
 
 gulp.task('firefox:dist', ['firefox'], function (cb) {
