@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     zip = require('gulp-zip'),
     run = require('gulp-run'),
     config = require('./config'),
-    preprocess = require('gulp-preprocess');
+    preprocess = require('gulp-preprocess'),
+    path = require('path');
 
 var paths = {
     dev: {
@@ -43,10 +44,16 @@ gulp.task('firefox', function () {
         .pipe(gulp.dest(paths.build.firefox));
 });
 
-gulp.task('chrome:dist', ['chrome'], function () {
+gulp.task('chrome:dist', ['chrome'], function (cb) {
     gulp.src(paths.build.chrome + '/**/*')
         .pipe(zip('chrome.zip'))
         .pipe(gulp.dest(paths.dist.chrome));
+
+    run("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome " +
+        ' --pack-extension=' + path.join(__dirname, paths.build.chrome) +
+        ' --pack-extension-key=' + path.join(process.env.HOME, '.ssh/chrome/chrome-tm-reading-time.pem'));
+
+    gulp.src(paths.build.chrome + '.crx').pipe(gulp.dest(paths.dist.chrome));
 });
 
 gulp.task('firefox:dist', ['firefox'], function (cb) {
