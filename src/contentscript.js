@@ -1,6 +1,8 @@
 ;(function () {
     'use strict';
 
+    var storage = new Storage();
+
     var defaultOptions = {
         api_url: '/* @echo plugin.apiUrl *//resolve',
         badgeClassName: 'flag flag_recovery',
@@ -61,6 +63,7 @@
             var badge = document.createElement('span');
             badge.className = this.badgeClassName;
             badge.innerText = text;
+            badge.textContent = text;
             return badge;
 
         },
@@ -111,14 +114,10 @@
                         self.ajax({
                             url: self.api_url + query,
                             success: function (response) {
-                                var toCache = {};
                                 response.forEach(function (obj) {
                                     self.addBadgeForLink(obj.time, obj.href);
-
-                                    toCache[obj.href] = obj.time;
+                                    storage.set(obj.href, obj.time);
                                 });
-
-                                chrome.storage.local.set(toCache);
                             }
                         });
                     }
@@ -167,7 +166,7 @@
         },
 
         getFromStorage: function (links, cb) {
-            chrome.storage.local.get(links, cb);
+            storage.get(links, false, cb);
         }
     };
 
