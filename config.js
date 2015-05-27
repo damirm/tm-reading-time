@@ -1,6 +1,6 @@
 var config = {
     plugin: {
-        version: "1.0.4",
+        version: "1.0.5",
         name: "TM reading time",
         description: "Browser extension for display the time needed for reading article",
         longDescription: "Расширение добавляет бейджи с временем, необходимым для прочтения статьи на сайтах habrahabr.ru, geektimes.ru, megamozg.ru",
