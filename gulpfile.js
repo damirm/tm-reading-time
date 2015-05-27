@@ -10,7 +10,7 @@ var gulp = require('gulp'),
 var buildDir = './build';
 var paths = {
     dev: {
-        js: ['./src/**/storage.js', './src/*.js'],
+        js: ['./src/*.js'],
         icons: ['./src/icons/*']
     },
     build: {
@@ -24,7 +24,7 @@ var paths = {
 };
 
 gulp.task('chrome', function () {
-    gulp.src(paths.dev.js)
+    gulp.src(['./src/chrome/storage.js'].concat(paths.dev.js))
         .pipe(concat('contentscript.js'))
         .pipe(preprocess({ context: config }))
         .pipe(gulp.dest(paths.build.chrome + '/js'));
@@ -38,7 +38,7 @@ gulp.task('chrome', function () {
 });
 
 gulp.task('firefox', function () {
-    gulp.src(paths.dev.js)
+    gulp.src(['./src/firefox/storage.js'].concat(paths.dev.js))
         .pipe(concat('contentscript.js'))
         .pipe(preprocess({ context: config }))
         .pipe(gulp.dest(paths.build.firefox + '/data/js'));
