@@ -7,10 +7,10 @@
         api_url: '/* @echo plugin.apiUrl *//resolve',
         badgeClassName: 'flag flag_recovery',
         averageWordsPerMinute: 180,
-        badgeContainerSelector: '.post h1.title',
+        badgeContainerSelector: '.post__title',
         contentContainerSelector: '.content',
-        iframesContainerSelector: '.post iframe',
-        articlesContainerSelector: 'a.post_title'
+        iframesContainerSelector: '.content iframe',
+        articlesContainerSelector: '.post__title_link'
     };
 
     var TmReadingTime = function (options) {
@@ -107,10 +107,10 @@
                             urls.splice(urls.indexOf(href), 1);
                         }
                     }
-                    
+
                     if (urls.length) {
                         var query = "?links=" + encodeURIComponent(JSON.stringify(urls));
-            
+
                         self.ajax({
                             url: self.api_url + query,
                             success: function (response) {
